@@ -19,4 +19,4 @@ Dia      | Horas         | Sala
 
 #### Trabalhos Práticos
 
-* [Série de Exercícios (JavaScript)](https://github.com/isel-leic-ipw/IPW-2022i-LEIC31N/wiki/PI-2122-2-A1)
+* [Série de Exercícios (JavaScript)](https://github.com/isel-leic-ipw/IPW-2022i-LEIC31N/wiki/IPW_IP-2122-1-A1)
