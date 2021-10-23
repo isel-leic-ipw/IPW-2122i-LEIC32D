@@ -1,0 +1,19 @@
+{
+  "name": "2-async-tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "quote-app.js",
+  "scripts": {
+    "test": "jest",
+	"start": "node quote-app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^27.3.1"
+  },
+  "dependencies": {
+    "urllib": "^2.37.4"
+  }
+}

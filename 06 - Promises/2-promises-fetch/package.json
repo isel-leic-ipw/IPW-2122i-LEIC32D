@@ -1,0 +1,16 @@
+{
+  "name": "2-promises-fetch",
+  "version": "1.0.0",
+  "description": "",
+  "main": "promises-fetch.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+	"start": "node promises-fetch.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^2.6.5"
+  }
+}

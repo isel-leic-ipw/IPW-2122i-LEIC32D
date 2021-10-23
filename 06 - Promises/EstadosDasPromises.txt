@@ -1,0 +1,12 @@
+:: Estados das Promises ::
+
+  * Resolved (operação concluída)
+
+    - Fulfilled (com sucesso)
+
+    - Rejected (com erro)
+
+  * Unresolved (operação em curso)
+
+    - Pending
+ 
