@@ -1,15 +1,56 @@
 'use strict';
 
 const data_ext = require('./app-data-ext-books');
+const data_int = require('./app-data-int-mem');
+
+async function tryFindBook() {
+		const book = await data_ext.findBook(process.argv[2]);
+		console.log(":: SUCCESS ::");
+		console.log(book);
+}
+
+async function tryGetBook() {
+		const book = await data_ext.getBookById(process.argv[2]);	
+		console.log(":: SUCCESS ::");
+		console.log(book);
+}
+
+async function tryDataExtInt() {
+	async function findAndSaveBook(query) {
+		const book = await data_ext.findBook(query);
+		return data_int.saveBook(book);
+	}
+
+	for (const query of process.argv.slice(2)) {
+		await findAndSaveBook(query);
+	}
+	
+	const books = await data_int.listBooks();
+	
+	console.log(':: BOOKS LIST ::');
+	console.log(JSON.stringify(books, null, 2));
+	console.log();
+	
+	for (const book of books) {
+		const id  = await data_int.deleteBook(book.id);
+		
+		console.log(':: BOOK DELETED ::');
+		console.log('ID:', id);
+		console.log();
+	}
+
+	const books2 = await data_int.listBooks();
+	
+	console.log(':: FINAL BOOKS LIST ::');
+	console.log(JSON.stringify(books2, null, 2));
+	console.log();
+}
 
 async function main() {
 	try {
-		const book = await data_ext.findBook(process.argv[2]);
-		//const book = await data_ext.getBookById(process.argv[2]);
-		
-		console.log(":: SUCCESS ::");
-		console.log(book);
-		
+		//await tryFindBook();
+		//await tryGetBook();
+		await tryDataExtInt();
 	} catch (err) {
 		console.log(":: FAILURE ::");
 		console.log(err);
