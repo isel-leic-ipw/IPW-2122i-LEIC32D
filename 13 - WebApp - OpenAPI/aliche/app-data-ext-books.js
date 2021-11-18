@@ -20,6 +20,9 @@ function do_fetch(uri) {
 			if (res.ok) {
 				return res.json();
 			} else {
+				if (res.status === 404) {
+					throw errors.NOT_FOUND(uri);
+				}
 				if (getStatusClass(res.status) === HTTP_SERVER_ERROR) {
 					return res.json()
 						.catch (err => err) // can you see what this does?
