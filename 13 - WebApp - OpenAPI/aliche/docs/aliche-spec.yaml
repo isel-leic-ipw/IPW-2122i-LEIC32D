@@ -1,0 +1,267 @@
+openapi: 3.0.1
+info:
+  title: ALiChe
+  description: 'Manage your book collection.'
+  termsOfService: http://swagger.io/terms/
+  version: 1.0.0
+tags:
+- name: AllBooks
+  description: All the books that we know about.
+  externalDocs:
+    description: Based on
+    url: https://developers.google.com/books
+- name: MyBooks
+  description: The personal books collection
+paths:
+  /api/global/books:
+    get:
+      tags:
+      - AllBooks
+      summary: Find a book by query
+      description: 
+        Uses Google Books API to find a book corresponding to the query.
+        Valid queries are the same as specified for Google Books API.
+        It will return the first result from Google Books' result set.
+      parameters:
+      - name: q
+        in: query
+        description: Query to find a book
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: A book has been found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookResponse'
+        400:
+          description: No query indicated in the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppError'
+        404:
+          description: No book found for the query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppError'
+        502:
+          description: Google Books API is not responding
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppError'
+  /api/my/books:
+    get:
+      tags:
+      - MyBooks
+      summary: List all books in the personal collection
+      responses:
+        200:
+          description: The personal list of books
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookListResponse'
+    post:
+      tags:
+      - MyBooks
+      summary: Add a book to the personal collection
+      requestBody:
+        description: Book id of a book to be added to the personal collection
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookId'
+      responses:
+        200:
+          description: The book is now in the collection
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookAddedResponse'
+        400:
+          description: A book with such id does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppError'
+        502:
+          description: Google Books API is not responding
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppError'
+  /api/my/books/{bookId}:
+    get:
+      tags:
+      - MyBooks
+      summary: Find book by ID in the personal collection
+      description: Returns a single book
+      parameters:
+      - name: bookId
+        in: path
+        description: ID of book to return
+        required: true
+        schema:
+          type: string
+        example: Ho3JtwEACAAJ
+      responses:
+        200:
+          description: Book found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookResponse'
+        404:
+          description: Book not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppError'
+    delete:
+      tags:
+      - MyBooks
+      summary: Delete book by ID
+      description: Deletes a book from the personal collection
+      parameters:
+      - name: bookId
+        in: path
+        description: ID of book to delete
+        required: true
+        schema:
+          type: string
+        example: Ho3JtwEACAAJ
+      responses:
+        200:
+          description: Book deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookId'
+        404:
+          description: Book not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppError'
+components:
+  schemas:
+    AppErrorInfo:
+      description: Additional information about the error
+      nullable: true
+      anyOf:
+      - type: object
+      - type: string
+      - type: integer
+      - type: number
+      example: "..."
+    AppError:
+      type: object
+      description: Application error
+      required: 
+      - code
+      - name
+      - message
+      properties:
+        code:
+          type: number
+          format: int32
+          description: Internal error code
+          example: 1000
+        name:
+          type: string
+          description: Internal error name
+          example: FAIL
+        message:
+          type: string
+          description: Error description message
+          example: An error occurred
+        info:
+          $ref: '#/components/schemas/AppErrorInfo'
+    BookAddedResponse:
+      type: object
+      description: Book successfully added to list
+      required: 
+      - bookId
+      properties:
+        bookId:
+          type: string
+        added:
+          type: string
+          enum:
+          - yes
+          - no
+    BookResponse:
+      type: object
+      description: Response with a book
+      properties:
+        book:
+          $ref: '#/components/schemas/Book'
+    BookListResponse:
+      type: object
+      description: Response with a list of books
+      properties:
+        books:
+          type: array
+          items:
+            $ref: '#/components/schemas/Book'
+    BookId:
+      type: object
+      description: Book id
+      required:
+      - bookId
+      properties:
+        bookId:
+          type: string
+          description: Internal book id
+          example: Ho3JtwEACAAJ
+    Book:
+      type: object
+      description: Book data
+      required:
+      - id
+      - title
+      - authors
+      properties:
+        id:
+          type: string
+          description: Internal book id
+          example: Ho3JtwEACAAJ
+        title:
+          type: string
+          description: The book title
+          example: Odisseia
+        authors:
+          type: array
+          description: The book author(s)
+          items:
+            type: string
+          example:
+          - Homero
+          - Frederico Lourenço
+        publisher:
+          type: string
+          description: The book publisher
+          example: Quetzal
+        publishedDate:
+          type: string
+          description: The book publication date
+          format: date
+          example: "2018-02-23"
+        language:
+          type: string
+          description: The book main language
+          example: pt
+        isbn10:
+          type: string
+          description: The book ISBN-10 number
+          example: 9897224386
+        isbn13:
+          type: string
+          description: The book ISBN-13 number
+          example: 9789897224386
