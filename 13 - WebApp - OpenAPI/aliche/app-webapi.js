@@ -2,6 +2,9 @@
 
 const express = require('express');
 
+const openApiUi = require('swagger-ui-express');
+const openApiSpec = require('./docs/aliche-spec.json');
+
 module.exports = function (services) {
 	
 	function onError(req, res, err) {
@@ -71,6 +74,9 @@ module.exports = function (services) {
 	}	
 
 	const router = express.Router();
+
+	router.use('/docs', openApiUi.serve);
+	router.get('/docs', openApiUi.setup(openApiSpec));
 
 	router.use(express.json());
 
