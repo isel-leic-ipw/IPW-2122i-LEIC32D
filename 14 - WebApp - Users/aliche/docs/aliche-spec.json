@@ -89,6 +89,11 @@
           "MyBooks"
         ],
         "summary": "List all books in the personal collection",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "The personal list of books",
@@ -96,6 +101,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/BookListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing API token. The user is not authenticated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppError"
                 }
               }
             }
@@ -107,6 +122,11 @@
           "MyBooks"
         ],
         "summary": "Add a book to the personal collection",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "description": "Book id of a book to be added to the personal collection",
           "required": true,
@@ -139,6 +159,16 @@
               }
             }
           },
+          "401": {
+            "description": "Missing API token. The user is not authenticated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppError"
+                }
+              }
+            }
+          },
           "502": {
             "description": "Google Books API is not responding",
             "content": {
@@ -159,6 +189,11 @@
         ],
         "summary": "Find book by ID in the personal collection",
         "description": "Returns a single book",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "bookId",
@@ -182,6 +217,16 @@
               }
             }
           },
+          "401": {
+            "description": "Missing API token. The user is not authenticated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppError"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Book not found",
             "content": {
@@ -200,6 +245,11 @@
         ],
         "summary": "Delete book by ID",
         "description": "Deletes a book from the personal collection",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "bookId",
@@ -223,6 +273,16 @@
               }
             }
           },
+          "401": {
+            "description": "Missing API token. The user is not authenticated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppError"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Book not found",
             "content": {
@@ -238,6 +298,12 @@
     }
   },
   "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
     "schemas": {
       "AppErrorInfo": {
         "description": "Additional information about the error",

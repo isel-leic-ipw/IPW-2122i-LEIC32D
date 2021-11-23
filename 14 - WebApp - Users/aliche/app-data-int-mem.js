@@ -2,18 +2,28 @@
 
 const errors = require('./app-errors');
 
-const books = {};
+const users = {
+	'jtrindade': { books: {} },
+	'fpessoa':   { books: {} }
+};
 
-const hasBook = async (bookId) => !!books[bookId];
+const tokens = {
+	'4chwViN4QHCTyTnUud88ww': 'jtrindade',
+	'cEzwXhDATtaaI5ZAO9PfYA': 'fpessoa' 
+};
 
-async function saveBook(bookObj) {
+const hasBook =
+	async (username, bookId) =>
+		!!users[username].books[bookId];
+
+async function saveBook(username, bookObj) {
 	const bookId = bookObj.id;
-	books[bookId] = bookObj;
+	users[username].books[bookId] = bookObj;
 	return bookId;
 }
 
-async function loadBook(bookId) {
-	const bookObj = books[bookId];
+async function loadBook(username, bookId) {
+	const bookObj = users[username].books[bookId];
 	if (!bookObj) {
 		const err = errors.NOT_FOUND({ id: bookId })
 		throw err;
@@ -21,17 +31,21 @@ async function loadBook(bookId) {
 	return bookObj;
 }
 
-async function deleteBook(bookId) {
-	const bookObj = books[bookId];
+async function deleteBook(username, bookId) {
+	const bookObj = users[username].books[bookId];
 	if (!bookObj) {
 		throw errors.NOT_FOUND({ id: bookId });
 	}
-	delete books[bookId];
+	delete users[username].books[bookId];
 	return bookId;
 }
 
-async function listBooks() {
-	return Object.values(books);
+async function listBooks(username) {
+	return Object.values(users[username].books);
+}
+
+async function tokenToUsername(token) {
+	return tokens[token];
 }
 
 module.exports = {
@@ -39,5 +53,6 @@ module.exports = {
 	saveBook,
 	loadBook,
 	deleteBook,
-	listBooks
+	listBooks,
+	tokenToUsername
 };

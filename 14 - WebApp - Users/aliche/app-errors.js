@@ -14,6 +14,7 @@ function buildErrorList() {
 	addError(1002, 'EXT_SVC_FAIL', 'External service failure');
 	addError(1003, 'MISSING_PARAM', 'Required parameter missing');
 	addError(1004, 'INVALID_PARAM', 'Invalid value for parameter');
+	addError(1005, 'UNAUTHENTICATED', 'Invalid or missing token');
 	
 	return errors;
 }

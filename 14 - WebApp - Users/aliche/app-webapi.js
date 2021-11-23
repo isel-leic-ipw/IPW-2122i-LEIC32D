@@ -7,7 +7,19 @@ const openApiSpec = require('./docs/aliche-spec.json');
 
 module.exports = function (services) {
 	
+	function getBearerToken(req) {
+		const auth = req.header('Authorization');
+		if (auth) {
+			const authData = auth.trim();
+			if (authData.substr(0,6).toLowerCase() === 'bearer') {
+				return authData.replace(/^bearer\s+/i, '');
+			}
+		}
+		return null;
+	}
+	
 	function onError(req, res, err) {
+		console.log('[ERROR]', err);
 		switch (err.name) {
 			case 'NOT_FOUND': 
 				res.status(404);
@@ -18,6 +30,9 @@ module.exports = function (services) {
 			case 'MISSING_PARAM': 
 			case 'INVALID_PARAM': 
 				res.status(400);
+				break;
+			case 'UNAUTHENTICATED': 
+				res.status(401);
 				break;
 			default:
 				res.status(500);				
@@ -36,7 +51,9 @@ module.exports = function (services) {
 
 	async function getMyBooks(req, res) {
 		try {
-			const books = await services.getAllBooks();
+			const books = await services.getAllBooks(
+				getBearerToken(req)
+			);
 			res.json(books);
 		} catch (err) {
 			onError(req, res, err);
@@ -46,7 +63,9 @@ module.exports = function (services) {
 	async function getMyBookById(req, res) {
 		try {
 			const bookId = req.params.bookId;
-			const book = await services.getBook(bookId);
+			const book = await services.getBook(
+				getBearerToken(req), bookId
+			);
 			res.json(book);
 		} catch (err) {
 			onError(req, res, err);
@@ -56,7 +75,9 @@ module.exports = function (services) {
 	async function addMyBookById(req, res) {
 		try {
 			const bookId = req.body.bookId;
-			const addBookRes = await services.addBook(bookId);
+			const addBookRes = await services.addBook(
+				getBearerToken(req), bookId
+			);
 			res.json(addBookRes);
 		} catch (err) {
 			onError(req, res, err);
@@ -66,7 +87,9 @@ module.exports = function (services) {
 	async function deleteMyBookById(req, res) {
 		try {
 			const bookId = req.params.bookId;
-			const bookIdRes = await services.delBook(bookId);
+			const bookIdRes = await services.delBook(
+				getBearerToken(req), bookId
+			);
 			res.json(bookIdRes);
 		} catch (err) {
 			onError(req, res, err);
