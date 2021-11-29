@@ -40,6 +40,12 @@ async function deleteBook(username, bookId) {
 	return bookId;
 }
 
+async function deleteAllBooks() {
+	Object.values(users).forEach(user => {
+		user.books = {};
+	});
+}
+
 async function listBooks(username) {
 	return Object.values(users[username].books);
 }
@@ -48,18 +54,12 @@ async function tokenToUsername(token) {
 	return tokens[token];
 }
 
-async function reset() {
-	Object.values(users).forEach(user => {
-		user.books = {};
-	});
-}
-
 module.exports = {
 	hasBook,
 	saveBook,
 	loadBook,
 	deleteBook,
+	deleteAllBooks,
 	listBooks,
-	tokenToUsername,
-	reset
+	tokenToUsername
 };
