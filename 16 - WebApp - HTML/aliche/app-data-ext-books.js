@@ -62,8 +62,8 @@ function findBook(query) {
 	return do_fetch(search_uri)
 		.then(answer => {
 			if (answer.items && answer.items.length) {
-				return makeBookObj(answer.items[0]);
-				//return getBookById(answer.items[0].id);
+				//return makeBookObj(answer.items[0]);
+				return getBookById(answer.items[0].id);
 			} else {
 				throw errors.NOT_FOUND({ query });
 			}

@@ -41,10 +41,8 @@ module.exports = function (services) {
 			}
 		} 
 
-
 		function sendFindResponse(statusCode, produceMain, data) {
-			res.status(statusCode).send(
-				`
+			res.status(statusCode).send(`
 					<!DOCTYPE html>
 					<html>
 						<head>
@@ -63,13 +61,43 @@ module.exports = function (services) {
 							${ produceMain(data) }
 						</body>
 					</html>			
-				`
-			);
+			`);
+		}
+
+		function produceBook(book) {
+			return `
+					<p>Query: ${query}</p>
+					<table>
+						<tr>
+							<td>Title:</td>
+							<td>${book.title}</td>
+						</tr>
+						<tr>
+							<td>Author(s):</td>
+							<td>${book.authors ? book.authors.join('<br>') : '--'}</td>
+						</tr>
+					</table>
+				`;
 		}
 	
 		function produceNoQuery() {
 			return `
 					<strong>ERROR:</strong> no query provided
+				`;
+		}
+		
+		function produceNotFound() {
+			return `
+					<p>Query: ${query}</p>
+					<p>ERROR: no book found for this query</p>
+				`;
+		}
+		
+		function produceError(errText) {
+			console.log('ERROR', err);
+			return `
+					<p>Query: ${query}</p>
+					<p>ERROR: ${errText}</p>
 				`;
 		}
 	} 
