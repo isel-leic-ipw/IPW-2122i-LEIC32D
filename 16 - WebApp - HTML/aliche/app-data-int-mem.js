@@ -4,12 +4,14 @@ const errors = require('./app-errors');
 
 const users = {
 	'jtrindade': { books: {} },
-	'fpessoa':   { books: {} }
+	'fpessoa':   { books: {} },
+	'guest':     { books: {} },
 };
 
 const tokens = {
 	'4chwViN4QHCTyTnUud88ww': 'jtrindade',
-	'cEzwXhDATtaaI5ZAO9PfYA': 'fpessoa' 
+	'cEzwXhDATtaaI5ZAO9PfYA': 'fpessoa',
+	'fz3zMebxQXybYskc567j5w': 'guest'
 };
 
 const hasBook =
