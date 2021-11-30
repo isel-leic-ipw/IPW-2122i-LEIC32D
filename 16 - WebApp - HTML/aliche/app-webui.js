@@ -102,6 +102,67 @@ module.exports = function (services) {
 		}
 	} 
 
+	async function listSavedBooks(req, res) {
+		try {
+			const booksRes = await services.getAllBooks(getToken(req));
+			sendListResponse(200, produceBookList, booksRes.books);
+		} catch (err) {
+			sendListResponse(500, produceError, JSON.stringify(err));
+		}
+		
+		function sendListResponse(statusCode, produceMain, data) {
+			res.status(statusCode).send(`
+				<!DOCTYPE html>
+				<html>
+					<head>
+						<meta charset='utf-8'>
+						<title>ALiChe - Bookshelf</title>
+					</head>
+					<body>
+						<nav>
+							<a href="/">Home</a> | 
+							<a href="/search">Search</a> |
+							<a href="/list">List</a>
+						</nav>
+						<hr>
+						<h1>Bookshelf</h1>
+
+						${ produceMain(data) }
+					</body>
+				</html>
+			`);
+		}
+		
+		function produceBookList(books) {
+			return books.length == 0 ? 
+					'<p><em>(empty)</em></p>' : `
+					<table>
+						<tr>
+							<th>Author(s)</th>
+							<th>Title</th>
+						</tr>
+						${books.map(produceBook).join('')}
+					</table>
+				`;
+		}
+		
+		function produceBook(book) {
+			return `
+					<tr>
+						<td>${book.authors ? book.authors.join('<br>') : '--'}</td>
+						<td>${book.title}</td>
+					</tr>
+				`;
+		}
+		
+		function produceError(errTxt) {
+			console.log('ERROR', errTxt);
+			return `
+					<p>ERROR: ${errTxt}</p>
+				`;
+		}		
+	}
+
 	const router = express.Router();
 
 	// Homepage
@@ -112,6 +173,9 @@ module.exports = function (services) {
 
 	// Find in library
 	router.get('/library', findInLibrary);
+
+	// List saved books
+	router.get('/list', listSavedBooks);
 
 	return router;
 };
