@@ -3,7 +3,7 @@
 const express = require('express');
 const path = require('path');
 
-module.exports = function (services) {
+module.exports = function (services, guest_token) {
 	
 	const fileOptions = {
 		root: path.join(__dirname, 'views'),
@@ -11,7 +11,7 @@ module.exports = function (services) {
 	};
 
 	function getToken(req) {
-		return 'fz3zMebxQXybYskc567j5w'; // to be improved...
+		return guest_token; // to be improved...
 	}
 	
 	function getHomepage(req, res) {

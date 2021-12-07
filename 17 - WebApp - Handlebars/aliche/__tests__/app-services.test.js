@@ -2,13 +2,14 @@
 
 const errors = require('../app-errors');
 
+const test_user = 'guest';
+const test_token = 'fz3zMebxQXybYskc567j5w';
+
 const services_builder = require('../app-services');
 
 const mock_data_ext = require('app-data-ext-books');
-const test_data_int = require('../app-data-int-mem');
-
-const test_user = 'jtrindade';
-const test_token = '4chwViN4QHCTyTnUud88ww';
+const test_data_int =
+	require('../app-data-int-mem')(test_user, test_token);
 
 const default_services = services_builder(
 	mock_data_ext,
