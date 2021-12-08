@@ -1,0 +1,40 @@
+<h1>Bookshelf</h1>
+
+{{#if books}}
+	<table>
+		<thead>
+			<tr>
+				<th>Author(s)</th>
+				<th>Title</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#each books}}
+				<tr>
+					<td>
+						{{#with authors}}
+							{{#each this}}
+								{{this}}
+								{{#unless @last}}<br>{{/unless}}
+							{{/each}}
+						{{else}}
+							'--'
+						{{/with}}
+					</td>
+					<td>{{title}}</td>
+					<td>
+						<form action='/books/{{id}}' method='GET'>
+							<input type='submit' value='Details'>
+						</form>
+					</td>
+				</tr>
+			{{/each}}
+		</tbody>
+	</table>
+{{else}}
+	<p><em>(empty)</em></p>
+{{/if}}
+
+{{#if error}}
+	<p><strong>ERROR:</strong> {{error}}</p>
+{{/if}}
