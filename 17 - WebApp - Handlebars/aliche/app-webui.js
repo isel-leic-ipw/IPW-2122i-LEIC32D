@@ -18,29 +18,30 @@ module.exports = function (services, guest_token) {
 	} 
 
 	async function findInLibrary(req, res) {
+		const header = 'Find Book Result';
 		const query = req.query.q;
 		try {
 			const bookRes = await services.searchBook(query);
 			const book = bookRes.book;
-			res.render('book', { query, book });
+			res.render('book', { header, query, book });
 		} catch (err) {
 			switch (err.name) {
 				case 'MISSING_PARAM':
 					res.status(400).render(
 						'book',
-						{ error: 'no query provided'}
+						{ header, error: 'no query provided' }
 					);
 					break;
 				case 'NOT_FOUND':
 					res.status(404).render(
 						'book',
-						{ query, error: 'no book found for this query'}
+						{ header, query, error: 'no book found for this query' }
 					);
 					break;
 				default:
 					res.status(500).render(
 						'book',
-						{ query, error: JSON.stringify(err)}
+						{ header, query, error: JSON.stringify(err) }
 					);
 					break;
 			}
@@ -60,6 +61,33 @@ module.exports = function (services, guest_token) {
 		}
 	}
 
+	async function showBookDetails(req, res) {
+		const header = 'Book Details';
+		const token  = getToken(req);
+		const bookId = req.params.bookId;
+		try {
+			const bookRes = await services.getBook(token, bookId);
+			const book = bookRes.book;
+			res.render('book', { header, book });
+		} catch (err) {
+			switch (err.name) {
+				case 'MISSING_PARAM':
+					res.status(400).render('book', { header, error: 'no bookId provided' });
+					break;
+				case 'UNAUTHENTICATED':
+					res.status(401).render('book', { header, error: 'login required' });
+					break;
+				case 'NOT_FOUND':
+					res.status(404).render('book', { header, error: `no book found with id ${bookId}` });
+					break;
+				default:
+					console.log(err);
+					res.status(500).render('book', { header, error: JSON.stringify(err) });
+					break;
+			}
+		}
+	}
+
 	const router = express.Router();
 	
 	// Homepage
@@ -72,7 +100,10 @@ module.exports = function (services, guest_token) {
 	router.get('/library', findInLibrary);
 	
 	// List saved books
-	router.get('/list', listSavedBooks);
+	router.get('/books', listSavedBooks);
+	
+	// Show book
+	router.get('/books/:bookId', showBookDetails);
 
 	return router;
 };

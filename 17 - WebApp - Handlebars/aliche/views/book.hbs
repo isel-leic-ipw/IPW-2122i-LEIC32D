@@ -1,4 +1,4 @@
-<h1>Find Book Result</h1>
+<h1>{{header}}</h1>
 
 {{#if query}}
 	<p>Query: {{query}}</p>
@@ -22,6 +22,14 @@
 					'--'
 				{{/with}}
 			</td>
+		</tr>
+		<tr>
+			<td>Date:</td>
+			<td>{{book.publishedDate}}</td>
+		</tr>
+		<tr>
+			<td>Publisher:</td>
+			<td>{{book.publisher}}</td>
 		</tr>
 	</table>
 {{/if}}
