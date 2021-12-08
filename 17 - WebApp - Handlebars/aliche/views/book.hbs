@@ -1,0 +1,31 @@
+<h1>Find Book Result</h1>
+
+{{#if query}}
+	<p>Query: {{query}}</p>
+{{/if}}
+
+{{#if book}}
+	<table>
+		<tr>
+			<td>Title:</td>
+			<td>{{book.title}}</td>
+		</tr>
+		<tr>
+			<td>Author(s):</td>
+			<td>
+				{{#with book.authors}}
+					{{#each this}}  
+						{{this}}
+						{{#unless @last}}<br>{{/unless}}
+					{{/each}}
+				{{else}}
+					'--'
+				{{/with}}
+			</td>
+		</tr>
+	</table>
+{{/if}}
+
+{{#if error}}
+	<p><strong>ERROR:</strong> {{error}}</p>
+{{/if}}

@@ -18,6 +18,8 @@ const webui = require('./app-webui')(services, guest_token);
 const express = require('express');
 const app = express();
 
+app.set('view engine', 'hbs');
+
 app.use('/api', webapi);
 app.use('/', webui);
 
