@@ -20,6 +20,10 @@ const app = express();
 
 app.set('view engine', 'hbs');
 
+app.use('/favicon.ico',
+	express.static('static-files/favicon.ico'));
+app.use('/public', express.static('static-files'));
+
 app.use('/api', webapi);
 app.use('/', webui);
 
