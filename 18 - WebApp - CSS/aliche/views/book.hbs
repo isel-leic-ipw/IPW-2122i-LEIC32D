@@ -1,39 +1,45 @@
 <h1>{{header}}</h1>
 
 {{#if query}}
-<p>Query: {{query}}</p>
+	<p>Query: {{query}}</p>
 {{/if}}
 
 {{#if book}}
-<table>
-	<tr>
-		<td>Title:</td>
-		<td>{{book.title}}</td>
-	</tr>
-	<tr>
-		<td>Author(s):</td>
-		<td>
-			{{#if book.authors}}
-				{{#each book.authors}}
-					{{this}}
-					{{#unless @last}}<br>{{/unless}}
-				{{/each}}
-			{{else}}
-				'--'
-			{{/if}}
-		</td>
-	</tr>
+	<table>
 		<tr>
-			<td>Date:</td>
-			<td>{{book.publishedDate}}</td>
+			<td>Title:</td>
+			<td>{{book.title}}</td>
 		</tr>
 		<tr>
-			<td>Publisher:</td>
-			<td>{{book.publisher}}</td>
+			<td>Author(s):</td>
+			<td>
+				{{#if book.authors}}
+					{{#each book.authors}}
+						{{this}}
+						{{#unless @last}}<br>{{/unless}}
+					{{/each}}
+				{{else}}
+					'--'
+				{{/if}}
+			</td>
 		</tr>
-</table>
+			<tr>
+				<td>Date:</td>
+				<td>{{book.publishedDate}}</td>
+			</tr>
+			<tr>
+				<td>Publisher:</td>
+				<td>{{book.publisher}}</td>
+			</tr>
+	</table>
+	{{#if allowSave}}
+		<form action='/books' method='POST'>
+			<input type='hidden' name='bookId' value='{{book.id}}'>
+			<input type='submit' value='Save'>
+		</form>
+	{{/if}}
 {{/if}}
 
 {{#if error}}
-<p><strong>ERROR:</strong> {{error}}</p>
+	<p><strong>ERROR:</strong> {{error}}</p>
 {{/if}}
