@@ -2,7 +2,7 @@ nav ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
-	overflow: hidden;
+  overflow: hidden;
   background-color: black;	
 }
 
@@ -16,12 +16,18 @@ nav li a {
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-	font-family: sans-serif;
+  font-family: sans-serif;
 }
 
 nav li a:hover {
-	background-color: gray
+  background-color: gray
 }
+
+#course { color: red; font-size: 1.5em }
+#sample { color: green }
+.day { color: orange }
+.night { color: blue }
+h1, h2, h3, #course { font-family: sans-serif }
 
 h1::before {
 	content: '';
@@ -35,12 +41,6 @@ h1 { margin-top: 8px }
 
 h2, h3 { margin-top: 32px }
 
-h1, h2, h3, .day, #course { font-family: sans-serif }
-#course { color: red; font-size: 1.5em }
-.day { color: orange }
-.night { color: blue }
-#sample { color: green }
-
 table.slist, table.slist th, table.slist td {
 	border-style: solid;
 	border-width: 1px;
@@ -52,13 +52,13 @@ table.slist th {
 }
 
 table.slist tr:nth-child(odd) {
-		background-color: #dddddd
+	background-color: #dddddd
 }
 
-table.slist th:nth-child(2) {
+table#related th:nth-child(2) {
 	text-align: left
 }
 
-table.slist td:nth-child(1), table.slist td:nth-child(3) {
+table#related td:nth-child(1), table#related td:nth-child(3) {
 	text-align: center
 }
