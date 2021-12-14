@@ -91,6 +91,31 @@ module.exports = function (services, guest_token) {
 		}
 	}
 
+	async function deleteBook(req, res) {
+		const header = 'Delete Book';
+		const token  = getToken(req);
+		const bookId = req.params.bookId;
+		try {
+			await services.delBook(token, bookId);
+			res.redirect('/books');
+		} catch (err) {
+			switch (err.name) {
+				case 'MISSING_PARAM':
+					res.status(400).render('book', { header, error: 'no bookId provided' });
+					break;
+				case 'UNAUTHENTICATED':
+					res.status(401).render('book', { header, error: 'login required' });
+					break;
+				case 'NOT_FOUND':
+					res.status(404).render('book', { header, error: `no book found with id ${bookId}` });
+					break;
+				default:
+					console.log(err);
+					res.status(500).render('book', { header, error: JSON.stringify(err) });
+					break;
+			}
+		}
+	}
 
 	async function saveBook(req, res) {
 		const header = 'Save Book Result';
@@ -139,6 +164,9 @@ module.exports = function (services, guest_token) {
 	
 	// Show book
 	router.get('/books/:bookId', showBookDetails);
+	
+	// Delete book (to be replaced)
+	router.post('/books/:bookId/delete', deleteBook);
 
 	return router;
 };
