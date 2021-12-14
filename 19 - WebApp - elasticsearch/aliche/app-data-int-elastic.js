@@ -130,7 +130,7 @@ module.exports = function (
 	}
 
 	async function deleteAllBooks() {
-		Object.values(users).forEach(async user => {
+		Object.values(users).forEach(async username => {
 			await fetch(
 				`${userBooksUrl(username)}?refresh=wait_for`,
 				{
