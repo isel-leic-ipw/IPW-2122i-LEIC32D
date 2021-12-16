@@ -4,8 +4,8 @@
   "description": "",
   "main": "app-server.js",
   "scripts": {
-    "test": "jest",
-    "start": "node app-server.js"
+    "start": "node app-server.js",
+    "test": "jest --roots=tests/unit"
   },
   "keywords": [],
   "author": "",

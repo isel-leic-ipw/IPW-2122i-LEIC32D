@@ -1,15 +1,15 @@
 'use strict';
 
-const errors = require('../app-errors');
+const errors = require('../../../app-errors');
 
 const test_user = 'guest';
 const test_token = 'fz3zMebxQXybYskc567j5w';
 
-const services_builder = require('../app-services');
+const services_builder = require('../../../app-services');
 
 const mock_data_ext = require('app-data-ext-books');
 const test_data_int =
-	require('../app-data-int-mem')(test_user, test_token);
+	require('../../../app-data-int-mem')(test_user, test_token);
 
 const default_services = services_builder(
 	mock_data_ext,
