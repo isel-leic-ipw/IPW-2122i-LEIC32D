@@ -2,18 +2,18 @@
 
 const errors = require('./app-errors');
 
-module.exports = function (guest_user, guest_token) {
+module.exports = function (guest) {
 
 	const users = {
 		'jtrindade':  { books: {} },
 		'fpessoa':    { books: {} },
-		[guest_user]: { books: {} },
+		[guest.user]: { books: {} },
 	};
 
 	const tokens = {
 		'4chwViN4QHCTyTnUud88ww': 'jtrindade',
 		'cEzwXhDATtaaI5ZAO9PfYA': 'fpessoa',
-		[guest_token]: guest_user
+		[guest.token]: guest.user
 	};
 
 	const hasBook =

@@ -4,28 +4,24 @@ const errors = require('./app-errors');
 
 const fetch = require('node-fetch');
 
-module.exports = function (
-	es_host, es_port,
-	idx_prefix,
-	guest_user, guest_token
-) {
-	const baseUrl = `http://${es_host}:${es_port}`;
+module.exports = function (es_spec, guest) {
+	const baseUrl = `${es_spec.url}`;
 
 	const userBooksUrl = username =>
-		`${baseUrl}/${idx_prefix}_${username}_books`;
+		`${baseUrl}${es_spec.prefix}_${username}_books`;
 
 	// TO DO: move to database
 	const users = new Set([
 		'jtrindade',
 		'fpessoa',
-		guest_user
+		guest.user
 	]);
 
 	// TO DO: move to database
 	const tokens = {
 		'4chwViN4QHCTyTnUud88ww': 'jtrindade',
 		'cEzwXhDATtaaI5ZAO9PfYA': 'fpessoa',
-		[guest_token]: guest_user
+		[guest.token]: guest.user
 	};
 
 	function checkUser(username) {

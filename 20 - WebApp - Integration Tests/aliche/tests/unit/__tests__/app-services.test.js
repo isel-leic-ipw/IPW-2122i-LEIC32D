@@ -1,15 +1,15 @@
 'use strict';
 
+const config = require('../../../app-config');
 const errors = require('../../../app-errors');
 
-const test_user = 'guest';
-const test_token = 'fz3zMebxQXybYskc567j5w';
+const test_user = config.guest;
 
 const services_builder = require('../../../app-services');
 
 const mock_data_ext = require('app-data-ext-books');
 const test_data_int =
-	require('../../../app-data-int-mem')(test_user, test_token);
+	require('../../../app-data-int-mem')(test_user);
 
 const default_services = services_builder(
 	mock_data_ext,
@@ -75,17 +75,17 @@ describe('Tests with DB', () => {
 	test('save existing book', async () => {
 		const bookId = 'E00FkgEACAAJ';
 		const addRes = await
-			default_services.addBook(test_token, bookId);
+			default_services.addBook(test_user.token, bookId);
 		expect(addRes).toBeDefined();
 		expect(addRes.bookId).toEqual(bookId);
 		const checkRes = await
-			test_data_int.loadBook(test_user, bookId);
+			test_data_int.loadBook(test_user.user, bookId);
 		expect(checkRes.id).toEqual(bookId);
 	});
 
 	test('obtain empty book list', async () => {
 		const listRes = await
-			default_services.getAllBooks(test_token);
+			default_services.getAllBooks(test_user.token);
 		expect(listRes).toBeDefined();
 		expect(listRes.books).toEqual([]);
 	});
