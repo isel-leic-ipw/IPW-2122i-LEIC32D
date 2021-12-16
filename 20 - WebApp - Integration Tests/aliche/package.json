@@ -5,7 +5,8 @@
   "main": "app-server.js",
   "scripts": {
     "start": "node app-launch.js",
-    "test": "jest --roots=tests/unit"
+    "test": "jest --roots=tests/unit",
+    "integration-tests": "jest --roots=tests/integration"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +15,7 @@
     "express": "^4.17.1",
     "hbs": "^4.2.0",
     "node-fetch": "^2.6.6",
+    "supertest": "^6.1.6",
     "swagger-ui-express": "^4.1.6"
   },
   "devDependencies": {
