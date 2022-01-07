@@ -1,0 +1,23 @@
+<html>
+	<head>
+		<meta charset='utf-8'>
+		<title>Cookies</title>
+	</head>
+	<body>
+		<h2>Cookies</h2>
+		<p>Buy products</p>
+		<form action="/cart" method="POST">
+			<label for="products">Choose a product:</label>
+			<select name="prod" id="products">
+				<option value="phone">Smartphone (99€)</option>
+				<option value="cover">Flip cover (10€)</option>
+			</select>
+			<br>
+			<label for="quantity">Quantity (1 to 5):</label>
+			<input type="number" id="quantity" name="qntt" min="1" max="5">
+			<input type="submit" value="Add to cart">
+		</form>
+		<br>
+		<p>See <a href="/cart">cart</a></p>
+	</body>
+</html>
