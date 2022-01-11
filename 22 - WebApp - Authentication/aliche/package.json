@@ -1,0 +1,25 @@
+{
+  "name": "aliche",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app-server.js",
+  "scripts": {
+    "start": "node app-launch.js",
+    "test": "jest --roots=tests/unit",
+    "integration-tests": "jest --roots=tests/integration"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "hbs": "^4.2.0",
+    "node-fetch": "^2.6.6",
+    "supertest": "^6.1.6",
+    "swagger-ui-express": "^4.1.6"
+  },
+  "devDependencies": {
+    "jest": "^27.3.1",
+    "nodemon": "^2.0.15"
+  }
+}
