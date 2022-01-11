@@ -14,6 +14,17 @@
 			</ul>
 		</nav>
 		<hr>
+			{{#if username}}
+		<form action='/logout' method='POST'>
+			<input type='submit' value='Logout'>
+				Username: {{username}}
+			</form>
+			{{else}}
+		<form action='/authenticate' method='GET'>
+			<input type='submit' value='Login'>
+			</form>
+			{{/if}}
+		<hr>
 		{{{body}}}
 	</body>
 </html>

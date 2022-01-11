@@ -1,5 +1,12 @@
 'use strict';
 
+const express  = require('express');
+const session  = require('express-session');
+const passport = require('passport');
+
+passport.serializeUser((userInfo, done) => { done(null, userInfo); });
+passport.deserializeUser((userInfo, done) => { done(null, userInfo); });
+
 module.exports = function (es_spec, guest) {
 
 	const data_ext_books = require('./app-data-ext-books');
@@ -11,8 +18,14 @@ module.exports = function (es_spec, guest) {
 	const webapi = require('./app-webapi')(services);
 	const webui = require('./app-webui')(services, guest.token);
 
-	const express = require('express');
 	const app = express();
+	app.use(session({
+		secret: 'isel-ipw',
+		resave: false,
+		saveUninitialized: false
+	}));
+	app.use(passport.initialize());
+	app.use(passport.session());
 
 	app.set('view engine', 'hbs');
 

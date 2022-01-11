@@ -20,12 +20,15 @@ describe('Integration tests', () => {
 
 	const app = server(es_spec, config.guest);
 	
-	afterAll(async () => {
-		await fetch(
-			`${es_spec.url}${es_spec.prefix}_${config.guest.user}_books`,
+	function deleteAllBooks() {
+		return fetch(
+			`${es_spec.url}${es_spec.prefix}_${config.guest.username}_books`,
 			{ method: 'DELETE' }
 		);
-	});
+	}
+	
+	beforeAll(deleteAllBooks);
+	afterEach(deleteAllBooks);
 	
 	test('Get empty bookshelf', async () => {
 		const response = await request(app)

@@ -11,6 +11,12 @@ module.exports = function (guest) {
 		books[user.username] = {};	return books;
 	}, {});
 
+	function checkUser(username) {
+		if (!users[username]) {
+			throw errors.UNAUTHENTICATED(username);
+		}
+	}
+
 	const hasBook =
 		async (username, bookId) =>
 			!!books[username][bookId];
@@ -53,6 +59,11 @@ module.exports = function (guest) {
 		return tokens[token];
 	}
 
+	async function getUser(username) {
+		checkUser(username);
+		return users[username];
+	}
+
 	return {
 		hasBook,
 		saveBook,
@@ -60,6 +71,7 @@ module.exports = function (guest) {
 		deleteBook,
 		deleteAllBooks,
 		listBooks,
-		tokenToUsername
+		tokenToUsername,
+		getUser
 	};
 };

@@ -4,6 +4,17 @@ const errors = require('./app-errors.js');
 
 module.exports = function (data_ext, data_int) {
 
+	async function checkAndGetUser(username, password) {
+		if (!username || !password) {
+			throw errors.MISSING_PARAM('missing credentials');
+		}
+		const user = await data_int.getUser(username);
+		if (user.password !== password) {
+			throw errors.UNAUTHENTICATED(username);
+		}
+		return user;
+	} 
+
 	async function getUsername(token) {
 		if (!token) {
 			throw errors.UNAUTHENTICATED('no token');
@@ -66,6 +77,7 @@ module.exports = function (data_ext, data_int) {
 	}
 
 	return {
+		checkAndGetUser,
 		searchBook,
 		addBook,
 		getBook,

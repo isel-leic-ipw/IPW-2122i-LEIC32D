@@ -64,13 +64,11 @@ describe('Search tests', () => {
 
 describe('Tests with DB', () => {
 
-	//beforeAll(...);
+	beforeAll(() => test_data_int.deleteAllBooks());
 	//afterAll(...);
 
 	//beforeEach(...);
-	afterEach(async () => {
-		await test_data_int.deleteAllBooks();
-	});
+	afterEach(() => test_data_int.deleteAllBooks());
 
 	test('save existing book', async () => {
 		const bookId = 'E00FkgEACAAJ';

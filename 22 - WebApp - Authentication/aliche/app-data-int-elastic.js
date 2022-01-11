@@ -20,6 +20,11 @@ module.exports = function (es_spec, guest) {
 		}
 	}
 
+	async function getUser(username) {
+		checkUser(username);
+		return users[username];
+	}
+
 	async function tokenToUsername(token) {
 		return tokens[token];
 	}
@@ -127,6 +132,7 @@ module.exports = function (es_spec, guest) {
 	}
 
 	return {
+		getUser,
 		tokenToUsername,
 		hasBook,
 		saveBook,
