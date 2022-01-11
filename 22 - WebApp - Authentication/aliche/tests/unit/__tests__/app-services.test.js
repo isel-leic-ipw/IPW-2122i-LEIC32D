@@ -79,7 +79,7 @@ describe('Tests with DB', () => {
 		expect(addRes).toBeDefined();
 		expect(addRes.bookId).toEqual(bookId);
 		const checkRes = await
-			test_data_int.loadBook(test_user.user, bookId);
+			test_data_int.loadBook(test_user.username, bookId);
 		expect(checkRes.id).toEqual(bookId);
 	});
 

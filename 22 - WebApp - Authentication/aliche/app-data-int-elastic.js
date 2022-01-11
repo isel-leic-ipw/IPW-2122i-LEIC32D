@@ -5,27 +5,17 @@ const errors = require('./app-errors');
 const fetch = require('node-fetch');
 
 module.exports = function (es_spec, guest) {
+	const user_list = require('./app-data-int-users')(guest);
+	const users  = user_list.users;
+	const tokens = user_list.tokens;
+
 	const baseUrl = `${es_spec.url}`;
 
 	const userBooksUrl = username =>
 		`${baseUrl}${es_spec.prefix}_${username}_books`;
 
-	// TO DO: move to database
-	const users = new Set([
-		'jtrindade',
-		'fpessoa',
-		guest.user
-	]);
-
-	// TO DO: move to database
-	const tokens = {
-		'4chwViN4QHCTyTnUud88ww': 'jtrindade',
-		'cEzwXhDATtaaI5ZAO9PfYA': 'fpessoa',
-		[guest.token]: guest.user
-	};
-
 	function checkUser(username) {
-		if (!users.has(username)) {
+		if (!users[username]) {
 			throw errors.UNAUTHENTICATED(username);
 		}
 	}
