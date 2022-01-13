@@ -7,6 +7,10 @@ const openApiSpec = require('./docs/aliche-spec.json');
 
 module.exports = function (services) {
 	
+	function getUserToken(req) {
+		return  req.user && req.user.token;
+	}
+	
 	function getBearerToken(req) {
 		const auth = req.header('Authorization');
 		if (auth) {
@@ -52,7 +56,7 @@ module.exports = function (services) {
 	async function getMyBooks(req, res) {
 		try {
 			const books = await services.getAllBooks(
-				getBearerToken(req)
+				getUserToken(req)
 			);
 			res.json(books);
 		} catch (err) {
@@ -64,7 +68,7 @@ module.exports = function (services) {
 		try {
 			const bookId = req.params.bookId;
 			const book = await services.getBook(
-				getBearerToken(req), bookId
+				getUserToken(req), bookId
 			);
 			res.json(book);
 		} catch (err) {
@@ -76,7 +80,7 @@ module.exports = function (services) {
 		try {
 			const bookId = req.body.bookId;
 			const addBookRes = await services.addBook(
-				getBearerToken(req), bookId
+				getUserToken(req), bookId
 			);
 			res.json(addBookRes);
 		} catch (err) {
@@ -88,7 +92,7 @@ module.exports = function (services) {
 		try {
 			const bookId = req.params.bookId;
 			const bookIdRes = await services.delBook(
-				getBearerToken(req), bookId
+				getUserToken(req), bookId
 			);
 			res.json(bookIdRes);
 		} catch (err) {
@@ -96,12 +100,21 @@ module.exports = function (services) {
 		}
 	}	
 
+	function extractToken(req, res, next) {
+		const bearerToken = getBearerToken(req);
+		if (bearerToken) {
+			req.user = { token: bearerToken };
+		}
+		next();
+	}
+
 	const router = express.Router();
 
 	router.use('/docs', openApiUi.serve);
 	router.get('/docs', openApiUi.setup(openApiSpec));
 
 	router.use(express.json());
+	router.use(extractToken);
 
 	// Resource: /global/books
 	router.get('/global/books', searchGlobalBooks);

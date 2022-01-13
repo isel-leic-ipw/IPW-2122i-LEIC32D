@@ -2,7 +2,7 @@
   "name": "aliche",
   "version": "1.0.0",
   "description": "",
-  "main": "app-server.js",
+  "main": "app-launch.js",
   "scripts": {
     "start": "node app-launch.js",
     "test": "jest --roots=tests/unit",

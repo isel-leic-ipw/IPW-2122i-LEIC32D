@@ -209,9 +209,6 @@ module.exports = function (services, guest_token) {
 	
 	// Show book
 	router.get('/books/:bookId', showBookDetails);
-	
-	// Delete book (to be replaced)
-	router.post('/books/:bookId/delete', deleteBook);
 
 	return router;
 };

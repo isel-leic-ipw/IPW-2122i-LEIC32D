@@ -10,7 +10,7 @@
 		</thead>
 		<tbody>
 			{{#each books}}
-				<tr>
+				<tr id='entry-{{id}}'>
 					<td>
 						{{#with authors}}
 							{{#each this}}
@@ -26,18 +26,25 @@
 						<form action='/books/{{id}}' method='GET'>
 							<input type='submit' value='Details'>
 						</form>
-						<form action='/books/{{id}}/delete' method='POST'>
-							<input type='submit' value='Delete'>
-						</form>
+						<input type='button' value='Delete' id='but-del-{{id}}' class='cls-del-but'>
 					</td>
 				</tr>
 			{{/each}}
 		</tbody>
 	</table>
+{{else if error}}
+	<!-- no book list -->
 {{else}}
 	<p><em>(empty)</em></p>
 {{/if}}
 
 {{#if error}}
 	<p><strong>ERROR:</strong> {{error}}</p>
+{{/if}}
+
+{{#if books}}
+<script src="/public/client.js"></script>
+<script>
+	setupForList();
+</script>
 {{/if}}
