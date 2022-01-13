@@ -1,0 +1,55 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>ISEL - LEIC - IPW</title>
+	</head>
+	<body>
+		<h1>ISEL - IPW</h1>
+		<h1 id='countBox'>0</h1>
+		<input type='button' value='Reset' id='butReset'>
+		<span id='spnExtra'></span>
+		
+		<script>
+			const countBox = document.querySelector('#countBox');
+			const butReset = document.querySelector('#butReset');
+			const spnExtra = document.querySelector('#spnExtra');
+			
+			let counter = 0;
+			let visible = true;
+			
+			countBox.style.fontSize = '500%';
+			
+			setInterval(updateCounter, 1000);
+			
+			function updateCounter() {
+				counter += 1;
+				updateCountBox();
+			}
+			
+			butReset.onclick = resetCounter;
+			
+			function resetCounter() {
+				counter = 0;
+				updateCountBox();
+			}
+			
+			const butHide = document.createElement('BUTTON');
+			butHide.innerHTML = 'Hide';
+			butHide.onclick = toggleVisibility;
+			spnExtra.appendChild(butHide);
+			
+			function toggleVisibility() {
+				visible = !visible;
+				butHide.innerHTML = (visible ? 'Hide' : 'Show');
+			}
+			
+			function updateCountBox() {
+				if (visible) {
+					countBox.innerHTML = counter;
+				} else {
+					countBox.innerHTML = '##';
+				}
+			}
+		</script>
+	</body>
+</html>

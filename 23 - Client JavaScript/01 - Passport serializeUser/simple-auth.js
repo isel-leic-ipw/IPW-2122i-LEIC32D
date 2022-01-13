@@ -4,13 +4,13 @@ const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
 
-passport.serializeUser((userInfo, done) => { done(null, userInfo); });
-passport.deserializeUser((userInfo, done) => { done(null, userInfo); });
+const FileStore = require('session-file-store')(session);
 
 const sessionHandler = session({
 	secret: 'isel-ipw',
 	resave: false,
 	saveUninitialized: false,
+	store: new FileStore()
 });
 
 const app = express();
@@ -25,6 +25,15 @@ const users = {
 	isel:  { username: 'isel',  password: 'ipw'   },
 	guest: { username: 'guest', password: '1234'  },
 }
+
+passport.serializeUser((userObj, done) => {
+	const userRef = userObj.username;
+	done(null, userRef); 
+});
+passport.deserializeUser((userRef, done) => {
+	const userObj = users[userRef];
+	done(null, userObj); }
+);
 
 app.get('/', (req, res) => {
 	if (req.isAuthenticated()) {
@@ -59,7 +68,9 @@ app.post('/login', (req, res) => {
 
 app.post('/logout', (req, res) => {
 	req.logout();
-	res.redirect('/');
+	req.session.save(() => {
+		res.redirect('/');
+	});
 });
 
 app.listen(8888);
