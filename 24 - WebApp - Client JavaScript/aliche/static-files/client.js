@@ -1,9 +1,10 @@
 'use strict';
 
 function setupForList() {
-	const deleteButtons = document.querySelectorAll('.cls-del-but'); 
-	deleteButtons.forEach(delBut => {
-		delBut.onclick = onDeleteBook;
+	const deleteButtons =
+		document.querySelectorAll('.cls-del-but'); 
+	deleteButtons.forEach(butDel => {
+		butDel.onclick = onDeleteBook;
 	});
 	return;
 	
@@ -26,7 +27,7 @@ function setupForList() {
 		if (delReqRes.status === 200) {
 			return;
 		}
-		throw Error(
+		throw new Error(
 			'Failed to delete book with id ' + bookId + '\n' +
 			delReqRes.status + ' ' + delReqRes.statusText 
 		);
