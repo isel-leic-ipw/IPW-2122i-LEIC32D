@@ -19,28 +19,18 @@
 			
 			countBox.style.fontSize = '500%';
 			
-			setInterval(updateCounter, 1000);
+			setInterval(incrementCounter, 1000);
 			
-			function updateCounter() {
+			function incrementCounter() {
 				counter += 1;
 				updateCountBox();
 			}
 			
-			butReset.onclick = resetCounter;
+			butReset.onclick = onReset;
 			
-			function resetCounter() {
+			function onReset() {
 				counter = 0;
 				updateCountBox();
-			}
-			
-			const butHide = document.createElement('BUTTON');
-			butHide.innerHTML = 'Hide';
-			butHide.onclick = toggleVisibility;
-			spnExtra.appendChild(butHide);
-			
-			function toggleVisibility() {
-				visible = !visible;
-				butHide.innerHTML = (visible ? 'Hide' : 'Show');
 			}
 			
 			function updateCountBox() {
@@ -50,6 +40,17 @@
 					countBox.innerHTML = '##';
 				}
 			}
+
+			const butHide = document.createElement('BUTTON');
+			butHide.innerHTML = 'Hide';
+			butHide.onclick = onToggleVisibility;
+			spnExtra.appendChild(butHide);
+			
+			function onToggleVisibility() {
+				visible = !visible;
+				butHide.innerHTML = (visible ? 'Hide' : 'Show');
+			}
+			
 		</script>
 	</body>
 </html>

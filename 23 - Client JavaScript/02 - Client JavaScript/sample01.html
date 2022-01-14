@@ -4,23 +4,23 @@
 		<title>ISEL - LEIC - IPW</title>
 	</head>
 	<body>
-		<h3 id="isel">ISEL</h3>
-		<h3 id="ipw">IPW</h3>
+		<h3 id='isel'>ISEL</h3>
+		<h3 id='ipw'>IPW</h3>
 		
-		<input type='button' value='Change!' onclick='onChange();'>
-	</body>
+		<input type='button' value='Change!' onclick='onChange()'>
 	
-	<script>
-		const headers = document.querySelectorAll("h3");
-		const isel = document.querySelector("#isel");
-		const ipw = document.querySelector("#ipw");
-
-		function onChange() {
-			headers.forEach(
-				elem => elem.style.fontSize = 'xx-large'
-			);
-			isel.style.color = 'red';
-			ipw.style.color = 'blue';
-		}
-	</script>
+		<script>
+			const headers = document.querySelectorAll('h3');
+			const isel = document.querySelector('#isel');
+			const ipw = document.querySelector('#ipw');
+	
+			function onChange() {
+				headers.forEach(elem => {
+					elem.style.fontSize = 'xx-large';
+				});
+				isel.style.color = 'red';
+				ipw.style.color = 'blue';
+			}
+		</script>
+	</body>
 </html>

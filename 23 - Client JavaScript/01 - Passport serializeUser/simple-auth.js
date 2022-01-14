@@ -32,8 +32,8 @@ passport.serializeUser((userObj, done) => {
 });
 passport.deserializeUser((userRef, done) => {
 	const userObj = users[userRef];
-	done(null, userObj); }
-);
+	done(null, userObj);
+});
 
 app.get('/', (req, res) => {
 	if (req.isAuthenticated()) {
